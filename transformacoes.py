@@ -14,6 +14,8 @@ class Transformacoes(object):
 			for i in self.alfabeto:
 				x[i]=['Qerr']
 			self.transicoes['Qerr']=x
+			self.estados.append('Qerr')
+		return self
 
 	def determinizar(self,obj):
 		self=obj
@@ -123,7 +125,7 @@ class Transformacoes(object):
 				copia.transicoes.pop(i)			
 		copia.finais=[]
 		for i in self.finais:
-			if i in c:
+			if i in c and i not in copia.finais:
 				copia.finais.append(i)
 		return copia
 
@@ -148,10 +150,81 @@ class Transformacoes(object):
 					if k not in m:
 						copia.transicoes[i][j].remove(k)
 		return copia
+	
+	def formar_classes_de_equivalencia(self,obj):
+		f=copy.copy(obj.finais)
+		k=[]
+		for i in obj.estados:
+			if i not in f and i not in k:
+				k.append(i)
+		if len(k)>0:
+			m=[f,k]
+		else:
+			m=[f]
+		n=0
+		while n!=m:
+			l=[]
+			n=copy.copy(m)
+			for i in n:
+				pivo = i[0]
+				for j in i:
+					if j!=pivo:
+						for k in obj.alfabeto:
+							o=obj.transicoes[j][k]
+							p=obj.transicoes[pivo][k]
+							for h in n:
+								if o[0] in h and p[0] not in h:
+									if [j] not in l:
+										l.append([j])
+									x=n.index(i)
+									if j in m[x]:
+										m[x].remove(j)
+									break
+			ll=copy.copy(l)
+			for i in ll:
+				for j in ll:
+					if i[0]!=j[0]:
+						e=1
+						for k in obj.alfabeto:
+							o=obj.transicoes[i[0]][k]
+							p=obj.transicoes[j[0]][k]
+							for h in m:
+								if o[0] in h and p[0] not in h:
+									e=0
+						if e:
+							if i in l:
+								l.remove(i)
+							if j in l:
+								l.remove(j)
+							l.append(i+j)
+			m=m+l
+		e=[]
+		f=[]
+		ini=''
+		for i in m:
+			e.append(i[0])
+			for j in i:
+				if j in obj.finais and i[0] not in f:
+					f.append(i[0])
+				if j in obj.inicial:
+					ini=i[0]
+				if j!=i[0]:
+					obj.transicoes.pop(j)
+			for j in obj.alfabeto:
+				for k in m:
+					x=i[0]
+					if obj.transicoes[x][j][0] in k:
+						obj.transicoes[x][j]=[k[0]]
+		obj.estados = e
+		obj.finais = f
+		obj.inicial=ini
+		return obj
 
 	def minimizar(self,obj):
 		obj=self.eliminar_inalcancaveis(obj)
 		obj=self.eliminar_mortos(obj)
+		obj=self.completar(obj)
+		obj=self.formar_classes_de_equivalencia(obj)
 		return obj
 
 

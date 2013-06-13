@@ -27,19 +27,6 @@ class Automato(object):
 	def inserir_transicao(self,estado_atual,terminal,estado_final):
 		self.transicoes[estado_atual][terminal].append(estado_final)
 	
-	#def completar(self):
-	#	q=0
-	#	for i in self.transicoes:
-	#		for j in self.alfabeto:
-	#			if len(self.transicoes[i][j])==0:
-	#				self.transicoes[i][j].append('Qerr')
-	#				q=1
-	#	if q==1:
-	#		x = dict()
-	#		for i in self.alfabeto:
-	#			x[i]=['Qerr']
-	#		self.transicoes['Qerr']=x
-	
 	def inserir_estado_inicial(self,inicial):
 		if len(self.inicial)==0:
 			self.inicial=inicial
@@ -48,152 +35,25 @@ class Automato(object):
 	
 	def inserir_estado_final(self,final):
 		self.finais.append(final)
-	
-#	def determinizar(self):
-#		det=dict()
-#		det[self.inicial]=dict()
-#		for i in self.transicoes[self.inicial]:
-#			det[self.inicial][i]=self.transicoes[self.inicial][i]
-#			if len(self.transicoes[self.inicial][i])>1:
-#				self.transicoes[self.inicial][i].sort()
-#				s=''
-#				for j in self.transicoes[self.inicial][i]:
-#					s=s+j
-#				det[s]=dict()
-#				for j in self.alfabeto:
-#					det[s][j]=[]
-#			if len(self.transicoes[self.inicial][i])==1:
-#				for x in self.transicoes[self.inicial][i]:
-#					if x not in det:
-#						det[x]=dict()
-#						for j in self.alfabeto:
-#							det[x][j]=[]
-#		d=0
-#		while d!=det:
-#			d=copy.deepcopy(det)
-#			for i in d:
-#				if len(i)>1:
-#					for j in i:
-#						for k in self.transicoes[j]:
-#							for l in self.transicoes[j][k]:
-#								if l not in det[i][k]:
-#									det[i][k].append(l)
-#					for j in det[i]:
-#						if len(det[i][j])>1:
-#							det[i][j].sort()
-#							s=''
-#							for k in det[i][j]:
-#								s=s+k
-#							if s not in det:
-#								det[s]=dict()
-#								for k in self.alfabeto:
-#									det[s][k]=[]
-#						else:
-#							for x in det[i][j]:
-#								if x not in det:
-#									det[x]=dict()
-#									for k in self.alfabeto:
-#										det[x][k]=[]
-#				else:
-#					for j in det[i]:
-#						if det[i][j] != self.transicoes[i][j]:
-#							det[i][j]=self.transicoes[i][j]
-#							if len(det[i][j])>1:
-#								det[i][j].sort()
-#								s=''
-#								for k in det[i][j]:
-#									s=s+k
-#								det[s]=dict()
-#								for k in self.alfabeto:
-#									det[s][k]=[]
-#		for i in det:
-#			for j in det[i]:
-#				if len(det[i][j])>1:
-#					s=''
-#					for k in det[i][j]:
-#						s=s+k
-#					det[i][j]=[s]
-#		self.transicoes = det
-#		f = []
-#		for i in self.finais:
-#			for j in self.transicoes:
-#				if i in j:
-#					f.append(j)
-#		self.finais = f
-#
+
+	def verificar_determinismo(self):
+		for i in self.transicoes:
+			for j in self.transicoes[i]:
+				if len(self.transicoes[i][j])>1:
+					return 0
+		return 1
+
 	def determinizar(self):
 		t=Transformacoes()
-		self=t.determinizar(self)
-
-#	def eliminar_inalcancaveis(self):
-#		t=Transformacoes()
-#		self=t.eliminar_inalcancaveis(self)
-#		a=[]
-#		c=[self.inicial]
-#		for i in self.alfabeto:
-#			for j in self.transicoes[self.inicial][i]:
-#				a.append(j)
-#		for i in a:
-#			c.append(i)
-#			for j in self.alfabeto:
-#				for k in self.transicoes[i][j]:
-#					if k not in c and k not in a:
-#						a.append(k)
-#			a.remove(i)
-#		copia = copy.deepcopy(self)
-#		copia.estados = c
-#		copia.alfabeto=[]
-#		for i in c:
-#			for j in self.alfabeto:
-#				for k in self.transicoes[i][j]:
-#					if k in c and j not in copia.alfabeto:
-#						copia.alfabeto.append(j)
-#		for i in self.transicoes:
-#			for j in self.transicoes[i]:
-#				for k in self.transicoes[i][j]:
-#					if k not in c:
-#						copia.transicoes[i][j].remove(k)
-#			if i not in c:
-#				copia.transicoes.pop(i)			
-#		copia.finais=[]
-#		for i in self.finais:
-#			if i in c:
-#				copia.finais.append(i)
-#		print "Sem inalcancaveis"
-#		copia.imprimir()
-#		return copia
-
-#	def eliminar_mortos(self):
-#		t=Transformacoes()
-#		self=t.eliminar_mortos(self)
-#		print 'self'
-#		self.imprimir()
-#		m=copia.finais
-#		n=[]
-#		while n!=m:
-#			n=m
-#			for i in copia.transicoes:
-#				for j in copia.transicoes[i]:
-#					for k in copia.transicoes[i][j]:
-#						if k in m and i not in m:
-#							m.append(i)
-#		for i in self.transicoes:
-#			if i not in m and i in copia.transicoes:
-#				copia.transicoes.pop(i)
-#		for i in copia.transicoes:
-#			for j in copia.transicoes[i]:
-#				for k in copia.transicoes[i][j]:
-#					if k not in m:
-#						copia.transicoes[i][j].remove(k)
-#		print "Sem mortos"
-#		copia.imprimir()
-#		return copia
+		copia=t.determinizar(self)
+		return copia
 
 	def minimizar(self):
 		t=Transformacoes()
-		self=t.minimizar(self)
-		print "\nNovo"
-		self.imprimir()
+		if not self.verificar_determinismo():
+			copia=t.determinizar(self)
+		copia=t.minimizar(copia)
+		return copia
 
 	def imprimir(self):
 		for i in self.alfabeto:
@@ -244,11 +104,6 @@ if __name__ == "__main__":
 	a.inserir_transicao('D','b','D')
 	a.inserir_estado_inicial('S')
 	a.inserir_estado_final('F')
-	#a.imprimir()
-	#print 'Inalcancaveis'
-	#b = a.eliminar_inalcancaveis()
-	#print 'Estados'
-	#print b.estados
 	b=Automato()
 	b.inserir_estado('S')
 	b.inserir_estado('A')
@@ -263,12 +118,6 @@ if __name__ == "__main__":
 	b.inserir_transicao('B','b','C')
 	b.inserir_estado_inicial('S')
 	b.inserir_estado_final('C')
-	b.determinizar()
-#	print 'Automato B'
-#	b.imprimir()
-	a.determinizar()
-#	print '\nAutomato A'
-#	a.imprimir()
 	c=Automato()
 	c.inserir_estado('S')
 	c.inserir_estado('A')
@@ -296,11 +145,60 @@ if __name__ == "__main__":
 	c.inserir_estado_final('B')
 	c.inserir_estado_final('C')
 	c.inserir_estado_final('D')
-#	print '\n\nAutomato C Nao deterministico'
-#	c.imprimir()
-	c.determinizar()
-#	print '\n\nAutomato C Deterministico'
-#	c.imprimir()
 	a.minimizar()
 	b.minimizar()
+	d=Automato()
+	d.inserir_estado('S')
+	d.inserir_estado('A')
+	d.inserir_estado('B')
+	d.inserir_estado('C')
+	d.inserir_estado('D')
+	d.inserir_terminal('a')
+	d.inserir_terminal('b')
+	d.inserir_transicao('S','a','B')
+	d.inserir_transicao('S','a','C')
+	d.inserir_transicao('S','b','A')
+	d.inserir_transicao('S','b','D')
+	d.inserir_transicao('A','a','B')
+	d.inserir_transicao('A','b','A')
+	d.inserir_transicao('B','a','A')
+	d.inserir_transicao('B','b','B')
+	d.inserir_transicao('C','a','C')
+	d.inserir_transicao('C','b','D')
+	d.inserir_transicao('D','a','D')
+	d.inserir_transicao('D','b','C')
+	d.inserir_estado_inicial('S')
+	d.inserir_estado_final('S')
+	d.inserir_estado_final('C')
+	d.inserir_estado_final('D')
+	print 'automato d'
+	d.minimizar()
+	print 'automato c'
+	c.minimizar()
+	print 'automato 4c'
+	e=Automato()
+	e.inserir_estado('S')
+	e.inserir_estado('A')
+	e.inserir_estado('B')
+	e.inserir_estado('C')
+	e.inserir_estado('D')
+	e.inserir_estado('E')
+	e.inserir_terminal('a')
+	e.inserir_terminal('b')
+	e.inserir_transicao('S','a','A')
+	e.inserir_transicao('S','b','B')
+	e.inserir_transicao('A','a','S')
+	e.inserir_transicao('A','b','C')
+	e.inserir_transicao('A','b','E')
+	e.inserir_transicao('B','a','A')
+	e.inserir_transicao('B','a','C')
+	e.inserir_transicao('C','a','B')
+	e.inserir_transicao('D','a','E')
+	e.inserir_transicao('E','a','S')
+	e.inserir_transicao('E','a','D')
+	e.inserir_estado_inicial('S')
+	e.inserir_estado_final('S')
+	e.inserir_estado_final('B')
+	e.inserir_estado_final('D')
+	e.minimizar()
 
