@@ -21,7 +21,7 @@ class Tabela:
 		nc = self.tabela.columnCount()
 		line=[]
 		for j in range(nc):
-			line.append( str(self.tabela.item(i,j)) )
+			line.append( str(self.tabela.item(i,j).text()) )
 		return line
 	def set_final(self):
 		i = self.tabela.currentColumn()
@@ -33,3 +33,8 @@ class Tabela:
 		self.y_rotulos[i] = '->'+self.y_rotulos[i]
 		self.tabela.setVerticalHeaderLabels(self.y_rotulos)
 		self.inicial = self.y_rotulos[i]
+	def reset(self):
+		self.tabela.clear()
+		self.tabela.clearContents()
+		self.tabela.setRowCount(0)
+		self.tabela.setColumnCount(0)
