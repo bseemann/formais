@@ -1,5 +1,6 @@
 import copy
 from transformacoes import *
+from gramatica import *
 
 class Automato(object):
 	def __init__(self):
@@ -13,16 +14,18 @@ class Automato(object):
 		#transicoes=('S'=('a'=['A','B'],b=[]),'A'=('a'=['A'],'b'=['S']))
 
 	def inserir_estado(self,novo):
-		self.estados.append(novo)
-		x = dict()
-		for i in self.alfabeto:
-			x[i]=[]
-		self.transicoes[novo] = x
+		if novo not in self.estados:
+			self.estados.append(novo)
+			x = dict()
+			for i in self.alfabeto:
+				x[i]=[]
+			self.transicoes[novo] = x
 	
 	def inserir_terminal(self,novo):
-		self.alfabeto.append(novo)
-		for i in self.transicoes:
-			self.transicoes[i][novo]=[]
+		if novo not in self.alfabeto:
+			self.alfabeto.append(novo)
+			for i in self.transicoes:
+				self.transicoes[i][novo]=[]
 
 	def inserir_transicao(self,estado_atual,terminal,estado_final):
 		self.transicoes[estado_atual][terminal].append(estado_final)
@@ -45,15 +48,72 @@ class Automato(object):
 
 	def determinizar(self):
 		t=Transformacoes()
-		copia=t.determinizar(self)
-		return copia
+		cop=t.determinizar(self)
+		cop.imprimir()
+		return cop
 
 	def minimizar(self):
 		t=Transformacoes()
 		if not self.verificar_determinismo():
 			copia=t.determinizar(self)
-		copia=t.minimizar(copia)
+			copia=t.minimizar(copia)
+		else:
+			copia=t.minimizar(self)
+		copia.imprimir()
 		return copia
+
+	def transformar_gramatica(self):
+		gramatica = Gramatica()
+		for i in self.estados:
+			if i != self.inicial:
+				s=i+'->'
+				for j in self.alfabeto:
+					if len(self.transicoes[i][j])>0:
+						if self.transicoes[i][j][0] in self.finais:
+							s=s+j+' | '
+						s=s+j+self.transicoes[i][j][0]
+						if len(self.transicoes[i][j])>1:
+							for k in range(1,len(self.transicoes[i][j])):
+								if self.transicoes[i][j][k] in self.finais:
+									s=s+' | '+j
+								s=s+' | '+j+self.transicoes[i][j][k]
+						s=s+' | '
+				if s[len(s)-2]=='|':
+					s=s[0:len(s)-2]
+				gramatica.inserir_producao(s)
+			else:
+				if i in self.finais:
+					s=i+'\'-> & | '
+					for j in self.alfabeto:
+						if len(self.transicoes[i][j])>0:
+							if self.transicoes[i][j][0] in self.finais:
+								s=s+j+' | '
+							s=s+j+self.transicoes[i][j][0]
+							if len(self.transicoes[i][j])>1:
+								for k in range(1,len(self.transicoes[i][j])):
+									if self.transicoes[i][j][k] in self.finais:
+										s=s+' | '+j
+									s=s+' | '+j+self.transicoes[i][j][k]
+							s=s+' | '
+					if s[len(s)-2]=='|':
+						s=s[0:len(s)-2]
+					gramatica.inserir_producao(s)
+				x=i+'->'
+				for j in self.alfabeto:
+					if self.transicoes[i][j]>0:
+						if self.transicoes[i][j][0] in self.finais:
+							x=x+j+' | '
+						x=x+j+self.transicoes[i][j][0]
+						if len(self.transicoes[i][j])>1:
+							for k in range(1,len(self.transicoes[i][j])):
+								if self.transicoes[i][j][k] in self.finais:
+									x=x+' | '+j
+								x=x+' | '+j+self.transicoes[i][j][k]
+						x=x+' | '
+				if x[len(x)-2]=='|':
+					x=x[0:len(x)-2]
+				gramatica.inserir_producao(x)
+		return gramatica
 
 	def imprimir(self):
 		for i in self.alfabeto:
@@ -172,9 +232,13 @@ if __name__ == "__main__":
 	d.inserir_estado_final('C')
 	d.inserir_estado_final('D')
 	print 'automato d'
-	d.minimizar()
+	r=d.minimizar()
+	print 'gramatica d'
+	x=r.transformar_gramatica()
+	x.imprimir()
 	print 'automato c'
 	c.minimizar()
+	#c.determinizar()
 	print 'automato 4c'
 	e=Automato()
 	e.inserir_estado('S')
@@ -201,4 +265,25 @@ if __name__ == "__main__":
 	e.inserir_estado_final('B')
 	e.inserir_estado_final('D')
 	e.minimizar()
-
+	f=Automato()
+	f.inserir_estado('S')
+	f.inserir_estado('A')
+	f.inserir_estado('B')
+	f.inserir_estado('F')
+	f.inserir_terminal('a')
+	f.inserir_terminal('b')
+	f.inserir_terminal('c')
+	f.inserir_transicao('S','a','A')
+	f.inserir_transicao('S','b','B')
+	f.inserir_transicao('S','c','F')
+	f.inserir_transicao('A','a','S')
+	f.inserir_transicao('A','a','F')
+	f.inserir_transicao('B','b','S')
+	f.inserir_transicao('B','b','F')
+	f.inserir_estado_inicial('S')
+	f.inserir_estado_final('F')
+	print 'S->aA|bB|c; A->aS|a; B->bS|b'
+	f.minimizar()
+	p=f.transformar_gramatica()
+	print 'Gramatica'
+	p.imprimir()

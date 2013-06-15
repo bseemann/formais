@@ -192,11 +192,12 @@ class Transformacoes(object):
 								if o[0] in h and p[0] not in h:
 									e=0
 						if e:
-							if i in l:
-								l.remove(i)
-							if j in l:
-								l.remove(j)
-							l.append(i+j)
+							if (i[0] in obj.finais and j[0] in obj.finais) or (i[0] not in obj.finais and j[0] not in obj.finais):
+								if i in l:
+									l.remove(i)
+								if j in l:
+									l.remove(j)
+								l.append(i+j)
 			m=m+l
 		e=[]
 		f=[]

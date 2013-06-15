@@ -44,3 +44,7 @@ if __name__ == "__main__":
 	a=g.transformar_automato()
 	print 'minimizado'
 	a.minimizar()
+	b=Gramatica()
+	b.inserir_producao('S->aS|a')
+	c=b.transformar_automato()
+	c.imprimir()
