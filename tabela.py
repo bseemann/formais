@@ -23,16 +23,33 @@ class Tabela:
 		for j in range(nc):
 			line.append( str(self.tabela.item(i,j).text()) )
 		return line
-	def set_final(self):
-		i = self.tabela.currentColumn()
+	def set_final(self, i=-1):
+		if i == -1:
+			i = self.tabela.currentRow()
+		if self.y_rotulos[i].find('*') != -1:
+			self.finais.remove(self.y_rotulos[i].lstrip('->*'))
+			self.y_rotulos[i] = self.y_rotulos[i].replace('*', '')
+			self.tabela.setVerticalHeaderLabels(self.y_rotulos)
+			return
+		self.finais.append(self.y_rotulos[i].lstrip('->'))
 		self.y_rotulos[i] = '*'+self.y_rotulos[i]
 		self.tabela.setVerticalHeaderLabels(self.y_rotulos)
-		self.finais.append(self.y_rotulos[i])
-	def set_initial(self):
-		i = self.tabela.currentColumn()
+	def set_initial(self, i=-1):
+		if i == -1:
+			i = self.tabela.currentRow()
+		if self.y_rotulos[i].find('->') != -1:
+			self.y_rotulos[i] = self.y_rotulos[i].replace('->', '')
+			self.inicial = ''
+			self.tabela.setVerticalHeaderLabels(self.y_rotulos)
+			return
+
+		for j, estado in enumerate(self.y_rotulos):
+			if estado.find('->') != -1:
+				self.y_rotulos[j] = estado.replace('->', '')
+
+		self.inicial = self.y_rotulos[i].lstrip('*')
 		self.y_rotulos[i] = '->'+self.y_rotulos[i]
 		self.tabela.setVerticalHeaderLabels(self.y_rotulos)
-		self.inicial = self.y_rotulos[i]
 	def reset(self):
 		self.tabela.clear()
 		self.tabela.clearContents()

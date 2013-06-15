@@ -155,7 +155,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Gramática Resultante</string>
+     <string>Automato Resultante</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton">
