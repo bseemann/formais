@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'interface.ui'
 #
-# Created: Wed Jun 12 21:21:52 2013
+# Created: Fri Jun 14 21:37:09 2013
 #      by: PyQt4 UI code generator 4.9.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -91,6 +91,6 @@ class Ui_MainWindow(object):
         self.botao_criar_automato.setText(QtGui.QApplication.translate("MainWindow", "criar_automato", None, QtGui.QApplication.UnicodeUTF8))
         self.botao_inicial.setText(QtGui.QApplication.translate("MainWindow", "Definir Inicial", None, QtGui.QApplication.UnicodeUTF8))
         self.botao_final.setText(QtGui.QApplication.translate("MainWindow", "Definir Final", None, QtGui.QApplication.UnicodeUTF8))
-        self.label.setText(QtGui.QApplication.translate("MainWindow", "Gramática Resultante", None, QtGui.QApplication.UnicodeUTF8))
+        self.label.setText(QtGui.QApplication.translate("MainWindow", "Automato Resultante", None, QtGui.QApplication.UnicodeUTF8))
         self.pushButton.setText(QtGui.QApplication.translate("MainWindow", "←→", None, QtGui.QApplication.UnicodeUTF8))
 
