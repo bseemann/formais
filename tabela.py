@@ -52,11 +52,14 @@ class Tabela:
 		self.inicial = self.y_rotulos[i].lstrip('*')
 		self.y_rotulos[i] = '->'+self.y_rotulos[i]
 		self.tabela.setVerticalHeaderLabels(self.y_rotulos)
+
 	def reset(self):
 		self.tabela.clear()
 		self.tabela.clearContents()
 		self.tabela.setRowCount(0)
 		self.tabela.setColumnCount(0)
+		self.x_rotulos=[]
+		self.y_rotulos=[]
 
 	def set_item(self, i , j, item):
 		self.tabela.setItem(i, j, QTableWidgetItem(item))
@@ -75,4 +78,3 @@ class Tabela:
 			for j in range(w):
 				item = self.item(i,j)
 				self.set_item(i,j,item)
-

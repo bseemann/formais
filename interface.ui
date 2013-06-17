@@ -125,7 +125,7 @@
    <widget class="QTableWidget" name="tabela2">
     <property name="geometry">
      <rect>
-      <x>460</x>
+      <x>470</x>
       <y>60</y>
       <width>321</width>
       <height>221</height>
@@ -135,7 +135,7 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>520</x>
+      <x>540</x>
       <y>40</y>
       <width>151</width>
       <height>17</height>
@@ -205,6 +205,19 @@
     </property>
     <property name="text">
      <string>Automato para Gramática</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_4">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>320</y>
+      <width>101</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Limpar Tabela</string>
     </property>
    </widget>
   </widget>
@@ -366,6 +379,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>pushButton_4</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>limpar_tabela()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>361</x>
+     <y>355</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>396</x>
+     <y>355</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>minimizar()</slot>
@@ -378,5 +407,6 @@
   <slot>gramatica_para_automato()</slot>
   <slot>swap_tables()</slot>
   <slot>automato_para_gramatica()</slot>
+  <slot>limpar_tabela()</slot>
  </slots>
 </ui>
