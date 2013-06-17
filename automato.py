@@ -64,6 +64,8 @@ class Automato(object):
 	def reconhecer_sentenca(self,sentenca):
 		formas_sentenciais=[]
 		sentencas=[]
+		if sentenca[0] not in self.alfabeto:
+			return False
 		for i in self.transicoes[self.inicial][sentenca[0]]:
 			s=sentenca[0]+i
 			if s not in formas_sentenciais:
@@ -73,6 +75,8 @@ class Automato(object):
 			formas_sentenciais=[]
 			for i in m:
 				nt=i[n+1:len(i)]
+				if sentenca[n+1] not in self.alfabeto:
+					return False
 				for j in self.transicoes[nt][sentenca[n+1]]:
 					if j!='Qerr':
 						s=i[0:n+1]+sentenca[n+1]+j
@@ -84,7 +88,6 @@ class Automato(object):
 		if sentenca in sentencas:
 			return True
 		return False
-
 
 	def enumerar_sentencas(self,tamanho):
 		formas_sentenciais=[]
@@ -280,3 +283,14 @@ if __name__ == "__main__":
 	g=f.minimizar()
 	print g.reconhecer_sentenca('aabbc')
 	print g.reconhecer_sentenca('aabbaabbaaaacaa')
+	h=Automato()
+	h.inserir_estado('S')
+	h.inserir_estado('A')
+	h.inserir_terminal('a')
+	h.inserir_estado_inicial('S')
+	h.inserir_estado_final('S')
+	h.inserir_transicao('S','a','A')
+	h.inserir_transicao('A','a','S')
+	print 'ahoy'
+	print h.reconhecer_sentenca('aab')
+	print h.reconhecer_sentenca('aaa')
