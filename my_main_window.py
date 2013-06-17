@@ -3,12 +3,12 @@ import sys
 from PyQt4 import QtCore, QtGui
 from string import ascii_lowercase
 from string import ascii_uppercase
-from PyQt4.QtGui import QTableWidgetItem
 from PyQt4.QtGui import QMessageBox
 # import pyuic generated user interface file
 from interface import Ui_MainWindow
 from tabela import Tabela
 from automato import Automato
+from gramatica import Gramatica
 
 class MyMainWindow(QtGui.QMainWindow, Ui_MainWindow):
 	def __init__(self, parent=None):
@@ -36,13 +36,52 @@ class MyMainWindow(QtGui.QMainWindow, Ui_MainWindow):
 		self.tabela.add_x_rotulo(text)
 
 	def minimizar(self):
-		pass
+		a = self.criar_automato()
+		if a is None:
+			return
+		a = a.minimizar()
+		self.automato_para_tabela(a)
+
 	def determinizar(self):
 		a = self.criar_automato()
 		if a is None:
 			return
 		a = a.determinizar()
 		self.automato_para_tabela(a)
+
+	def swap_tables(self):
+		t1=self.tabela
+		t2=self.tabela2
+		t2cc = t2.n_colunas()
+		t2rc = t2.n_linhas()
+		t2bkp=[]
+
+		for i in range(t2rc):
+			t2bkp.append([])
+			for j in range(t2cc):
+				t2bkp[i].append(t2.item(i,j))
+		t2.tabela.setColumnCount(t1.tabela.columnCount())
+		t2.tabela.setRowCount(t1.tabela.rowCount())
+		
+
+		for i in range(t1.n_linhas()):
+			for j in range(t1.n_colunas()):
+				t2.set_item(i, j, t1.item( i, j))
+
+		t1.tabela.setColumnCount(t2cc)
+		t1.tabela.setRowCount(t2rc)
+
+		for i in range(t2rc):
+			for j in range(t2cc):
+				t1.set_item(i, j, t2bkp[i][j])
+		t1.x_rotulos, t2.x_rotulos = t2.x_rotulos, t1.x_rotulos
+		t1.y_rotulos, t2.y_rotulos = t2.y_rotulos, t1.y_rotulos
+
+		t1.inicial,t2.inicial = t2.inicial,t1.inicial
+		t1.finais,t2.finais = t2.finais,t1.finais
+
+		self.tabela.refresh()
+		self.tabela2.refresh()
 
 	def msg(self, mensagem, informative=''):
 		dialog = QMessageBox()
@@ -68,17 +107,16 @@ class MyMainWindow(QtGui.QMainWindow, Ui_MainWindow):
 					continue
 				for letra in final:
 					if letra not in ascii_uppercase:
-						self.msg('Transicao para nao-estado detectada.', atual+' + '+terminal+' = '+final)
-						return None
+						if letra not in ['@',',']:
+							self.msg('Transicao para nao-estado detectada.', atual+' + '+terminal+' = '+final)
+							return None
 				#Verificar se "final" esta na lista de estados
-				for estado in self.tabela.y_rotulos:
-					if estado.lstrip('*->') == final:
-						break
-				else:
-					self.msg('Transicao para um estado inexistente.', atual+' + '+terminal+' = '+final)
-					return None
+				for item in final.split(','):
+					if item not in a.estados and item != '@':
+						self.msg('Transicao para um estado inexistente.', atual+' + '+terminal+' = '+final)
+						return None
+					a.inserir_transicao(atual, terminal, item)
 
-				a.inserir_transicao(atual, terminal, final)
 		a.inserir_estado_inicial(self.tabela.inicial)
 		for final in self.tabela.finais:
 			a.inserir_estado_final( final )
@@ -97,7 +135,8 @@ class MyMainWindow(QtGui.QMainWindow, Ui_MainWindow):
 	def automato_para_tabela(self, automato):
 		t=self.tabela2
 		t.reset()
-		for e in automato.estados:
+
+		for e in automato.transicoes:
 			t.add_y_rotulo(e)
 		for ter in automato.alfabeto:
 			t.add_x_rotulo(ter)
@@ -107,16 +146,39 @@ class MyMainWindow(QtGui.QMainWindow, Ui_MainWindow):
 
 		for j, estado in enumerate(t.y_rotulos):
 			if estado.lstrip('->*') == automato.inicial:
+				t.y_rotulos[j] = t.y_rotulos[j].replace('->','')
 				t.set_initial(j)
+				break
 
 		for i, e in enumerate(automato.transicoes):
-			for j, ter in enumerate(automato.transicoes[e]):
+			for j, ter in enumerate(sorted(automato.transicoes[e])):
 				finais=''
 				for k, f in enumerate(automato.transicoes[e][ter]):
 					finais = finais + str(f) + ','
 				finais = finais.rstrip(',')
-				t.tabela.setItem(i, j, QTableWidgetItem(finais))
+				#t.tabela.setItem(i, j, QTableWidgetItem(finais))
+				t.set_item(i, j, finais)
 
+
+	def gramatica_para_automato(self):
+		text = self.textEdit.toPlainText().toAscii()
+		text = str(text).splitlines()
+		g = Gramatica()
+		for line in text:
+			g.inserir_producao(str(line))
+			print line
+		a = g.transformar_automato()
+		a.imprimir()
+		self.automato_para_tabela(a)
+	
+	def automato_para_gramatica(self):
+		a = self.criar_automato()
+		g = Gramatica()
+		lines = g.transformar_gramatica(a)
+
+		self.textEdit.clear()
+		for line in lines:
+			self.textEdit().append(line)
 
 
 if __name__ == "__main__":

@@ -1,4 +1,4 @@
-
+from PyQt4.QtGui import QTableWidgetItem
 class Tabela:
 	def __init__(self, t):
 		self.tabela = t
@@ -17,6 +17,8 @@ class Tabela:
 		self.tabela.setVerticalHeaderLabels(self.y_rotulos)
 	def n_linhas(self):
 		return self.tabela.rowCount()
+	def n_colunas(self):
+		return self.tabela.columnCount()
 	def get_linha(self, i):
 		nc = self.tabela.columnCount()
 		line=[]
@@ -55,3 +57,22 @@ class Tabela:
 		self.tabela.clearContents()
 		self.tabela.setRowCount(0)
 		self.tabela.setColumnCount(0)
+
+	def set_item(self, i , j, item):
+		self.tabela.setItem(i, j, QTableWidgetItem(item))
+		
+	def item(self, i, j):
+		if self.tabela.item(i, j):
+			return self.tabela.item(i, j).text()
+		return QTableWidgetItem('')
+
+	def refresh(self):
+		self.tabela.setVerticalHeaderLabels(self.y_rotulos)
+		self.tabela.setHorizontalHeaderLabels(self.x_rotulos)
+		w=len(self.x_rotulos)
+		h=len(self.y_rotulos)
+		for i in range(h):
+			for j in range(w):
+				item = self.item(i,j)
+				self.set_item(i,j,item)
+
