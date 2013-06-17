@@ -107,7 +107,7 @@ class MyMainWindow(QtGui.QMainWindow, Ui_MainWindow):
 					continue
 				for letra in final:
 					if letra not in ascii_uppercase:
-						if letra not in ['@',',']:
+						if letra not in ['@',',','&']:
 							self.msg('Transicao para nao-estado detectada.', atual+' + '+terminal+' = '+final)
 							return None
 				#Verificar se "final" esta na lista de estados
@@ -136,10 +136,18 @@ class MyMainWindow(QtGui.QMainWindow, Ui_MainWindow):
 		t=self.tabela2
 		t.reset()
 
-		for e in automato.transicoes:
+		for e in sorted(automato.transicoes):
 			t.add_y_rotulo(e)
-		for ter in automato.alfabeto:
+		for ter in sorted(automato.alfabeto):
 			t.add_x_rotulo(ter)
+
+		for i, e in enumerate(sorted(automato.transicoes)):
+			for j, ter in enumerate(sorted(automato.transicoes[e])):
+				finais=''
+				for k, f in enumerate(automato.transicoes[e][ter]):
+					finais = finais + str(f) + ','
+				finais = finais.rstrip(',')
+				t.set_item(i, j, finais)
 
 		for f in automato.finais:
 			t.set_final(t.y_rotulos.index(f))
@@ -150,23 +158,12 @@ class MyMainWindow(QtGui.QMainWindow, Ui_MainWindow):
 				t.set_initial(j)
 				break
 
-		for i, e in enumerate(automato.transicoes):
-			for j, ter in enumerate(sorted(automato.transicoes[e])):
-				finais=''
-				for k, f in enumerate(automato.transicoes[e][ter]):
-					finais = finais + str(f) + ','
-				finais = finais.rstrip(',')
-				#t.tabela.setItem(i, j, QTableWidgetItem(finais))
-				t.set_item(i, j, finais)
-
-
 	def gramatica_para_automato(self):
 		text = self.textEdit.toPlainText().toAscii()
 		text = str(text).splitlines()
 		g = Gramatica()
 		for line in text:
 			g.inserir_producao(str(line))
-			print line
 		a = g.transformar_automato()
 		a.imprimir()
 		self.automato_para_tabela(a)
@@ -178,7 +175,10 @@ class MyMainWindow(QtGui.QMainWindow, Ui_MainWindow):
 
 		self.textEdit.clear()
 		for line in lines:
-			self.textEdit().append(line)
+			self.textEdit.append(line)
+	
+	def limpar_tabela(self):
+		self.tabela.reset()
 
 
 if __name__ == "__main__":

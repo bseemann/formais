@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'interface.ui'
 #
-# Created: Sun Jun 16 23:04:21 2013
+# Created: Mon Jun 17 01:55:25 2013
 #      by: PyQt4 UI code generator 4.9.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -50,12 +50,12 @@ class Ui_MainWindow(object):
         self.botao_final.setGeometry(QtCore.QRect(170, 320, 94, 27))
         self.botao_final.setObjectName(_fromUtf8("botao_final"))
         self.tabela2 = QtGui.QTableWidget(self.centralwidget)
-        self.tabela2.setGeometry(QtCore.QRect(460, 60, 321, 221))
+        self.tabela2.setGeometry(QtCore.QRect(470, 60, 321, 221))
         self.tabela2.setObjectName(_fromUtf8("tabela2"))
         self.tabela2.setColumnCount(0)
         self.tabela2.setRowCount(0)
         self.label = QtGui.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(520, 40, 151, 17))
+        self.label.setGeometry(QtCore.QRect(540, 40, 151, 17))
         self.label.setObjectName(_fromUtf8("label"))
         self.pushButton = QtGui.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(410, 140, 41, 27))
@@ -74,6 +74,9 @@ class Ui_MainWindow(object):
         self.pushButton_3 = QtGui.QPushButton(self.centralwidget)
         self.pushButton_3.setGeometry(QtCore.QRect(70, 510, 181, 27))
         self.pushButton_3.setObjectName(_fromUtf8("pushButton_3"))
+        self.pushButton_4 = QtGui.QPushButton(self.centralwidget)
+        self.pushButton_4.setGeometry(QtCore.QRect(270, 320, 101, 27))
+        self.pushButton_4.setObjectName(_fromUtf8("pushButton_4"))
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 831, 25))
@@ -92,6 +95,8 @@ class Ui_MainWindow(object):
         QtCore.QObject.connect(self.botao_final, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.set_final)
         QtCore.QObject.connect(self.pushButton_2, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.gramatica_para_automato)
         QtCore.QObject.connect(self.pushButton, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.swap_tables)
+        QtCore.QObject.connect(self.pushButton_3, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.automato_para_gramatica)
+        QtCore.QObject.connect(self.pushButton_4, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.limpar_tabela)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -106,4 +111,5 @@ class Ui_MainWindow(object):
         self.pushButton.setText(QtGui.QApplication.translate("MainWindow", "←→", None, QtGui.QApplication.UnicodeUTF8))
         self.pushButton_2.setText(QtGui.QApplication.translate("MainWindow", "Gramática para Automato", None, QtGui.QApplication.UnicodeUTF8))
         self.pushButton_3.setText(QtGui.QApplication.translate("MainWindow", "Automato para Gramática", None, QtGui.QApplication.UnicodeUTF8))
+        self.pushButton_4.setText(QtGui.QApplication.translate("MainWindow", "Limpar Tabela", None, QtGui.QApplication.UnicodeUTF8))
 
