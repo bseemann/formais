@@ -83,7 +83,7 @@ class Gramatica(object):
 				if x[len(x)-2]=='|':
 					x=x[0:len(x)-2]
 				self.inserir_producao(x)
-		return self
+		return self.producoes
 
 
 	def imprimir(self):
