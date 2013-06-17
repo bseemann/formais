@@ -23,7 +23,7 @@ class Tabela:
 		nc = self.tabela.columnCount()
 		line=[]
 		for j in range(nc):
-			line.append( str(self.tabela.item(i,j).text()) )
+			line.append( str(self.item(i,j).toAscii()) )
 		return line
 	def set_final(self, i=-1):
 		if i == -1:
@@ -67,7 +67,7 @@ class Tabela:
 	def item(self, i, j):
 		if self.tabela.item(i, j):
 			return self.tabela.item(i, j).text()
-		return QTableWidgetItem('')
+		return QTableWidgetItem('').text()
 
 	def refresh(self):
 		self.tabela.setVerticalHeaderLabels(self.y_rotulos)
