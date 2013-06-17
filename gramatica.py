@@ -40,51 +40,50 @@ class Gramatica(object):
 				for j in automato.alfabeto:
 					if len(automato.transicoes[i][j])>0:
 						if automato.transicoes[i][j][0] in automato.finais:
-							s=s+j+' | '
+							s=s+j+'|'
 						s=s+j+automato.transicoes[i][j][0]
 						if len(automato.transicoes[i][j])>1:
 							for k in range(1,len(automato.transicoes[i][j])):
 								if automato.transicoes[i][j][k] in automato.finais:
-									s=s+' | '+j
-								s=s+' | '+j+automato.transicoes[i][j][k]
-						s=s+' | '
-				if s[len(s)-2]=='|':
-					s=s[0:len(s)-2]
+									s=s+'|'+j
+								s=s+'|'+j+automato.transicoes[i][j][k]
+						s=s+'|'
+				if s[len(s)-1]=='|':
+					s=s[0:len(s)-1]
 				self.inserir_producao(s)
 			else:
 				if i in automato.finais:
-					s=i+'\'-> & | '
+					s='$->&|'
 					for j in automato.alfabeto:
 						if len(automato.transicoes[i][j])>0:
 							if automato.transicoes[i][j][0] in automato.finais:
-								s=s+j+' | '
+								s=s+j+'|'
 							s=s+j+automato.transicoes[i][j][0]
 							if len(automato.transicoes[i][j])>1:
 								for k in range(1,len(automato.transicoes[i][j])):
 									if automato.transicoes[i][j][k] in automato.finais:
-										s=s+' | '+j
-									s=s+' | '+j+automato.transicoes[i][j][k]
-							s=s+' | '
-					if s[len(s)-2]=='|':
-						s=s[0:len(s)-2]
+										s=s+'|'+j
+									s=s+'|'+j+automato.transicoes[i][j][k]
+							s=s+'|'
+					if s[len(s)-1]=='|':
+						s=s[0:len(s)-1]
 					self.inserir_producao(s)
 				x=i+'->'
 				for j in automato.alfabeto:
 					if automato.transicoes[i][j]>0:
 						if automato.transicoes[i][j][0] in automato.finais:
-							x=x+j+' | '
+							x=x+j+'|'
 						x=x+j+automato.transicoes[i][j][0]
 						if len(automato.transicoes[i][j])>1:
 							for k in range(1,len(automato.transicoes[i][j])):
 								if automato.transicoes[i][j][k] in automato.finais:
-									x=x+' | '+j
-								x=x+' | '+j+automato.transicoes[i][j][k]
-						x=x+' | '
-				if x[len(x)-2]=='|':
-					x=x[0:len(x)-2]
+									x=x+'|'+j
+								x=x+'|'+j+automato.transicoes[i][j][k]
+						x=x+'|'
+				if x[len(x)-1]=='|':
+					x=x[0:len(x)-1]
 				self.inserir_producao(x)
 		return self.producoes
-
 
 	def imprimir(self):
 		for i in self.producoes:
@@ -131,4 +130,13 @@ if __name__ == "__main__":
 	print 'gramatica d'
 	g.transformar_gramatica(r)
 	g.imprimir()
+	e=Gramatica()
+	e.inserir_producao('S->aA|a|&')
+	e.inserir_producao('A->aA|a')
+	e.imprimir()
+	c=e.transformar_automato()
+	c.imprimir()
+	c=c.minimizar()
+	print 'uaaaaaaaaaaa'
+	c.imprimir()
 	
