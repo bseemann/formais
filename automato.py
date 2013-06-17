@@ -60,6 +60,56 @@ class Automato(object):
 			copia=t.minimizar(self)
 		copia.imprimir()
 		return copia
+	
+	def reconhecer_sentenca(self,sentenca):
+		formas_sentenciais=[]
+		sentencas=[]
+		for i in self.transicoes[self.inicial][sentenca[0]]:
+			s=sentenca[0]+i
+			if s not in formas_sentenciais:
+				formas_sentenciais.append(s)
+		for n in range(len(sentenca)-1):
+			m=copy.copy(formas_sentenciais)
+			formas_sentenciais=[]
+			for i in m:
+				nt=i[n+1:len(i)]
+				for j in self.transicoes[nt][sentenca[n+1]]:
+					if j!='Qerr':
+						s=i[0:n+1]+sentenca[n+1]+j
+						if s not in formas_sentenciais:
+							formas_sentenciais.append(s)
+						if j in self.finais:
+							if s[0:len(s)-len(j)] not in sentencas:
+								sentencas.append(s[0:len(s)-len(j)])
+		if sentenca in sentencas:
+			return 'Pertence'
+		return 'Nao pertence'
+
+
+	def enumerar_sentencas(self,tamanho):
+		formas_sentenciais=[]
+		sentencas=[]
+		for i in self.alfabeto:
+			for j in self.transicoes[self.inicial][i]:
+				formas_sentenciais.append(i+j)
+				if j in self.finais:
+					sentencas.append(i)
+		for n in range(tamanho-1):
+			m=copy.copy(formas_sentenciais)
+			formas_sentenciais=[]
+			for i in m:
+				nt=i[n+1:len(i)]
+				pred=i[0:n+1]
+				for j in self.alfabeto:
+					for k in self.transicoes[nt][j]:
+						if k != 'Qerr':
+							s=pred+j+k
+							if s not in formas_sentenciais:
+								formas_sentenciais.append(s)
+							if k in self.finais:
+								if s[:len(s)-len(k)] not in sentencas:
+									sentencas.append(s[:len(s)-len(k)])
+		return sentencas
 
 	def imprimir(self):
 		for i in self.alfabeto:
@@ -179,12 +229,9 @@ if __name__ == "__main__":
 	d.inserir_estado_final('D')
 	print 'automato d'
 	r=d.minimizar()
-#	print 'gramatica d'
-#	x=r.transformar_gramatica()
-#	x.imprimir()
 	print 'automato c'
 	c.minimizar()
-	#c.determinizar()
+	#c.determinizar() 
 	print 'automato 4c'
 	e=Automato()
 	e.inserir_estado('S')
@@ -229,7 +276,6 @@ if __name__ == "__main__":
 	f.inserir_estado_inicial('S')
 	f.inserir_estado_final('F')
 	print 'S->aA|bB|c; A->aS|a; B->bS|b'
-	f.minimizar()
-	p=f.transformar_gramatica()
-	print 'Gramatica'
-	p.imprimir()
+	g=f.minimizar()
+	print g.reconhecer_sentenca('aabbc')
+	print g.reconhecer_sentenca('aabbaabbaaaacaa')
