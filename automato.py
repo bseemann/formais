@@ -82,33 +82,34 @@ class Automato(object):
 							if s[0:len(s)-len(j)] not in sentencas:
 								sentencas.append(s[0:len(s)-len(j)])
 		if sentenca in sentencas:
-			return 'Pertence'
-		return 'Nao pertence'
+			return True
+		return False
 
 
 	def enumerar_sentencas(self,tamanho):
 		formas_sentenciais=[]
 		sentencas=[]
-		for i in self.alfabeto:
-			for j in self.transicoes[self.inicial][i]:
-				formas_sentenciais.append(i+j)
-				if j in self.finais:
-					sentencas.append(i)
-		for n in range(tamanho-1):
-			m=copy.copy(formas_sentenciais)
-			formas_sentenciais=[]
-			for i in m:
-				nt=i[n+1:len(i)]
-				pred=i[0:n+1]
-				for j in self.alfabeto:
-					for k in self.transicoes[nt][j]:
-						if k != 'Qerr':
-							s=pred+j+k
-							if s not in formas_sentenciais:
-								formas_sentenciais.append(s)
-							if k in self.finais:
-								if s[:len(s)-len(k)] not in sentencas:
-									sentencas.append(s[:len(s)-len(k)])
+		if(tamanho>0):
+			for i in self.alfabeto:
+				for j in self.transicoes[self.inicial][i]:
+					formas_sentenciais.append(i+j)
+					if j in self.finais:
+						sentencas.append(i)
+			for n in range(tamanho-1):
+				m=copy.copy(formas_sentenciais)
+				formas_sentenciais=[]
+				for i in m:
+					nt=i[n+1:len(i)]
+					pred=i[0:n+1]
+					for j in self.alfabeto:
+						for k in self.transicoes[nt][j]:
+							if k != 'Qerr':
+								s=pred+j+k
+								if s not in formas_sentenciais:
+									formas_sentenciais.append(s)
+								if k in self.finais:
+									if s[:len(s)-len(k)] not in sentencas:
+										sentencas.append(s[:len(s)-len(k)])
 		return sentencas
 
 	def imprimir(self):

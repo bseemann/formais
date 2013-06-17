@@ -45,6 +45,14 @@ class Expressao_Regular(object):
 		arvore = self.construir_arvore(expressao)
 		print 'ARE YOU MAD?'
 
+	def thompson_modificado(self,expressao):
+		a=expressao[0]
+		automato=Automato()
+		estado=''
+		indice=0
+		if a in string.lowercase:
+			estado=string.uppercase[indice]
+			print estado
 
 	def imprimir_arvore(self,arvore):
 		if arvore==None:return
@@ -55,15 +63,15 @@ class Expressao_Regular(object):
 
 if __name__ == "__main__":
 	e=Expressao_Regular()
-	a=e.di_simone('ab*')
-	e.imprimir_arvore(a)
-	a=e.di_simone('ab*a*')
-	e.imprimir_arvore(a)
-	a=e.di_simone('(ab)*')
-	e.imprimir_arvore(a)
-	a=e.di_simone('ab*(ab)*')
-	e.imprimir_arvore(a)
-
+#	a=e.di_simone('ab*')
+#	e.imprimir_arvore(a)
+#	a=e.di_simone('ab*a*')
+#	e.imprimir_arvore(a)
+#	a=e.di_simone('(ab)*')
+#	e.imprimir_arvore(a)
+#	a=e.di_simone('ab*(ab)*')
+#	e.imprimir_arvore(a)
+	e.thompson_modificado('ab')
 
 
 
