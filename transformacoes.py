@@ -1,4 +1,5 @@
 import copy
+import string
 
 class Transformacoes(object):
 	def completar(self,obj):
@@ -228,4 +229,95 @@ class Transformacoes(object):
 		obj=self.formar_classes_de_equivalencia(obj)
 		return obj
 
+	def automato_complementar(self,automato):
+		complementar=self.completar(copy.deepcopy(automato))
+		complementar.finais=[]
+		for i in automato.estados:
+			if i not in automato.finais:
+				complementar.finais.append(i)
+		return complementar
+	
+	def automato_interseccao(self,automato1,automato2,uniao):
+		complementar1=self.automato_complementar(automato1)
+		complementar2=self.automato_complementar(automato2)
+		indice=0
+		uniao.inserir_estado(string.uppercase[indice])
+		uniao.inserir_estado_inicial(string.uppercase[indice])
+		indice=indice+1
+		for i in complementar1.alfabeto:
+			uniao.inserir_terminal(i)
+		for i in complementar2.alfabeto:
+			if i not in uniao.alfabeto:
+				uniao.inserir_terminal(i)
+		for i in complementar1.estados:
+			e=string.uppercase.find(i)+indice
+			uniao.inserir_estado(string.uppercase[e])
+			if i in complementar1.finais:
+				uniao.inserir_estado_final(string.uppercase[e])
+		for i in complementar1.estados:
+			for j in complementar1.alfabeto:
+				for k in complementar1.transicoes[i][j]:
+					e=string.uppercase.find(i)+indice
+					l=string.uppercase.find(k)+indice
+					if i==complementar1.inicial:
+						uniao.inserir_transicao(uniao.inicial,j,string.uppercase[l])
+						if i in complementar1.finais:
+							uniao.inserir_estado_final(uniao.inicial)
+					uniao.inserir_transicao(string.uppercase[e],j,string.uppercase[l])
+		m=indice
+		for i in uniao.estados:
+			j=string.uppercase.find(i)
+			if j>m:
+				m=j
+		m=m+1
+		indice=m
+		for i in complementar2.estados:
+			n=m-string.uppercase.find(i)
+			if n<indice:
+				indice=n
+		indice=indice+1
+		for i in complementar2.estados:
+			e=string.uppercase.find(i)+indice
+			uniao.inserir_estado(string.uppercase[e])
+			if i in complementar2.finais:
+				uniao.inserir_estado_final(string.uppercase[e])
+		for i in complementar2.estados:
+			for j in complementar2.alfabeto:
+				for k in complementar2.transicoes[i][j]:
+					e=string.uppercase.find(i)+indice
+					l=string.uppercase.find(k)+indice
+					if i==complementar2.inicial:
+						uniao.inserir_transicao(uniao.inicial,j,string.uppercase[l])
+						if i in complementar2.finais:
+							if uniao.inicial not in uniao.finais:
+								uniao.inserir_estado_final(uniao.inicial)
+					uniao.inserir_transicao(string.uppercase[e],j,string.uppercase[l])
+		print 'uniao'
+		uniao.imprimir()
+		automato=self.determinizar(uniao)
+		print 'det'
+		automato.imprimir()
+		automato=self.minimizar(automato)
+		print 'minimizado'
+		automato.imprimir()
+		automato=self.automato_complementar(automato)
+		return automato
 
+	def automatos_equivalentes(self,automato1,automato2,obj):
+		complementar1=self.automato_complementar(copy.deepcopy(automato1))
+		print 'complementar1'
+		complementar1.imprimir()
+		complementar2=self.automato_complementar(copy.deepcopy(automato2))
+		print 'complementar2'
+		complementar2.imprimir()
+		interseccao1=self.automato_interseccao(copy.deepcopy(automato1),complementar2,copy.deepcopy(obj))
+		print 'interseccao1'
+		interseccao1.imprimir()
+		interseccao2=self.automato_interseccao(copy.deepcopy(automato2),complementar1,copy.deepcopy(obj))
+		print 'interseccao2'
+		interseccao2.imprimir()
+		if len(interseccao1.finais)==0 and len(interseccao2.finais)==0:
+			return True
+		return False
+		interseccao1.imprimir()
+		interseccao2.imprimir()
