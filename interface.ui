@@ -145,7 +145,7 @@
      <string>Automato Resultante</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="botao_swap">
     <property name="geometry">
      <rect>
       <x>410</x>
@@ -181,7 +181,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="botao_g_to_a">
     <property name="geometry">
      <rect>
       <x>70</x>
@@ -194,7 +194,7 @@
      <string>Gramática para Automato</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_3">
+   <widget class="QPushButton" name="botao_a_to_g">
     <property name="geometry">
      <rect>
       <x>70</x>
@@ -207,7 +207,7 @@
      <string>Automato para Gramática</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_4">
+   <widget class="QPushButton" name="botao_limpar_tela">
     <property name="geometry">
      <rect>
       <x>270</x>
@@ -218,6 +218,91 @@
     </property>
     <property name="text">
      <string>Limpar Tabela</string>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="textEdit_2">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>380</y>
+      <width>231</width>
+      <height>91</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="botao_salvar">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>20</y>
+      <width>51</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Salvar</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="botao_carregar">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>20</y>
+      <width>71</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Carregar</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>480</y>
+      <width>121</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Listar sentenças</string>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="spinBox">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>480</y>
+      <width>41</width>
+      <height>27</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>490</y>
+      <width>64</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Tamanho</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_2">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>510</y>
+      <width>161</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Reconhecer Sentença</string>
     </property>
    </widget>
   </widget>
@@ -332,7 +417,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>pushButton_2</sender>
+   <sender>botao_g_to_a</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
    <slot>gramatica_para_automato()</slot>
@@ -348,7 +433,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>pushButton</sender>
+   <sender>botao_swap</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
    <slot>swap_tables()</slot>
@@ -364,7 +449,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>pushButton_3</sender>
+   <sender>botao_a_to_g</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
    <slot>automato_para_gramatica()</slot>
@@ -380,7 +465,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>pushButton_4</sender>
+   <sender>botao_limpar_tela</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
    <slot>limpar_tabela()</slot>
@@ -392,6 +477,70 @@
     <hint type="destinationlabel">
      <x>396</x>
      <y>355</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>botao_salvar</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>salvar()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>287</x>
+     <y>66</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>294</x>
+     <y>77</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>botao_carregar</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>carregar()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>380</x>
+     <y>61</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>61</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>listar_sentencas()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>562</x>
+     <y>525</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>559</x>
+     <y>550</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>reconhecer_sentenca()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>585</x>
+     <y>558</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>628</x>
+     <y>556</y>
     </hint>
    </hints>
   </connection>
@@ -408,5 +557,9 @@
   <slot>swap_tables()</slot>
   <slot>automato_para_gramatica()</slot>
   <slot>limpar_tabela()</slot>
+  <slot>salvar()</slot>
+  <slot>carregar()</slot>
+  <slot>listar_sentencas()</slot>
+  <slot>reconhecer_sentenca()</slot>
  </slots>
 </ui>

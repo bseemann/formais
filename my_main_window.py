@@ -9,6 +9,7 @@ from interface import Ui_MainWindow
 from tabela import Tabela
 from automato import Automato
 from gramatica import Gramatica
+from pickle import dump, load
 
 class MyMainWindow(QtGui.QMainWindow, Ui_MainWindow):
 	def __init__(self, parent=None):
@@ -179,6 +180,42 @@ class MyMainWindow(QtGui.QMainWindow, Ui_MainWindow):
 	
 	def limpar_tabela(self):
 		self.tabela.reset()
+
+	def salvar(self, nome='sem_titulo.txt'):
+		f = open(nome, 'w')
+		if not f:
+			return
+		a = self.criar_automato()
+		dump(a, f)
+		f.close()
+
+	def carregar(self, nome='sem_titulo.txt'):
+		f = open(nome)
+		if not f:
+			return
+		a = load(f)
+		self.automato_para_tabela(a)
+		f.close()
+	def listar_sentencas(self):
+		a = self.criar_automato()
+		n = self.spinBox.value()
+		lines = a.enumerar_sentencas(n)
+		self.textEdit_2.clear()
+		for line in lines:
+			self.textEdit_2.append(line)
+	def reconhecer_sentenca(self):
+		s = str(self.textEdit_2.toPlainText().toAscii())
+		if len(s.splitlines()) > 1:
+			self.msg('Atencao: Apenas a primeira linha do campo eh levada em consideracao.')
+			s = s.splitlines()[0]
+		a = self.criar_automato()
+		if not a:
+			return
+		if a.reconhecer_sentenca(s):
+			self.msg('Sentenca reconhecida.')
+		else:
+			self.msg('Sentenca nao reconhecida.')
+		
 
 
 if __name__ == "__main__":
