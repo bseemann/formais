@@ -217,8 +217,11 @@ if __name__ == "__main__":
 	b.inserir_estado_final('A')
 	c=Automato()
 	a=e.thompson_modificado('aa*')
-	b=e.thompson_modificado('a*a')
-	if t.automatos_equivalentes(a,b,c):
-		print 'Equivalentes'
+	b=e.thompson_modificado('a*b')
+	d=b.minimizar()
+	if d.reconhecer_sentenca('b'):
+		print 'yes'
+#	if t.automatos_equivalentes(a,b,c):
+#		print 'Equivalentes'
 	
 

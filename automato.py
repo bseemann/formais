@@ -70,6 +70,9 @@ class Automato(object):
 			s=sentenca[0]+i
 			if s not in formas_sentenciais:
 				formas_sentenciais.append(s)
+			if i in self.finais:
+				if s[0] not in sentencas:
+					sentencas.append(s[0])
 		for n in range(len(sentenca)-1):
 			m=copy.copy(formas_sentenciais)
 			formas_sentenciais=[]
