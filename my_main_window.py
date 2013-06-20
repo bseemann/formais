@@ -109,6 +109,8 @@ class MyMainWindow(QtGui.QMainWindow, Ui_MainWindow):
 				if final == '' or final == '-':
 					continue
 				for letra in final:
+					if final == 'Qerr':
+						break
 					if letra not in ascii_uppercase:
 						if letra not in ['@',',','&']:
 							self.msg('Transicao para nao-estado detectada.', atual+' + '+terminal+' = '+final)
@@ -184,6 +186,11 @@ class MyMainWindow(QtGui.QMainWindow, Ui_MainWindow):
 		self.tabela.reset()
 
 	def salvar(self, nome='sem_titulo.txt'):
+		text = str(self.line_edit_salvar.text().toAscii())
+		if text != '':
+			nome = text
+		else:
+			self.msg('Salvo como \"sem_titulo.txt\".')
 		f = open(nome, 'w')
 		if not f:
 			return
@@ -192,6 +199,11 @@ class MyMainWindow(QtGui.QMainWindow, Ui_MainWindow):
 		f.close()
 
 	def carregar(self, nome='sem_titulo.txt'):
+		text = str(self.line_edit_salvar.text().toAscii())
+		if text != '':
+			nome = text
+		else:
+			self.msg('Tentanto carregar \"sem_titulo.txt\".')
 		f = open(nome)
 		if not f:
 			return
@@ -233,6 +245,14 @@ class MyMainWindow(QtGui.QMainWindow, Ui_MainWindow):
 		else:
 			self.msg('Expressoes nao equivalentes.')
 
+	def ER_para_automato(self):
+		text = str(self.line_edit_ER_para_automato.text().toAscii())
+		if text == '':
+			self.msg('Expressao vazia!')
+			return
+		ER = Expressao_Regular()
+		a = ER.thompson_modificado(text)
+		self.automato_para_tabela(a)
 
 
 if __name__ == "__main__":

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'interface.ui'
 #
-# Created: Wed Jun 19 23:06:10 2013
+# Created: Wed Jun 19 23:53:21 2013
 #      by: PyQt4 UI code generator 4.9.1
 #
 # WARNING! All changes made in this file will be lost!
@@ -81,10 +81,10 @@ class Ui_MainWindow(object):
         self.textEdit_2.setGeometry(QtCore.QRect(370, 390, 231, 91))
         self.textEdit_2.setObjectName(_fromUtf8("textEdit_2"))
         self.botao_salvar = QtGui.QPushButton(self.centralwidget)
-        self.botao_salvar.setGeometry(QtCore.QRect(260, 20, 51, 27))
+        self.botao_salvar.setGeometry(QtCore.QRect(470, 320, 71, 27))
         self.botao_salvar.setObjectName(_fromUtf8("botao_salvar"))
         self.botao_carregar = QtGui.QPushButton(self.centralwidget)
-        self.botao_carregar.setGeometry(QtCore.QRect(320, 20, 71, 27))
+        self.botao_carregar.setGeometry(QtCore.QRect(550, 320, 71, 27))
         self.botao_carregar.setObjectName(_fromUtf8("botao_carregar"))
         self.pushButton = QtGui.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(480, 490, 121, 27))
@@ -111,11 +111,23 @@ class Ui_MainWindow(object):
         self.line_edit_ER2.setGeometry(QtCore.QRect(620, 420, 171, 27))
         self.line_edit_ER2.setObjectName(_fromUtf8("line_edit_ER2"))
         self.label_5 = QtGui.QLabel(self.centralwidget)
-        self.label_5.setGeometry(QtCore.QRect(650, 370, 101, 17))
+        self.label_5.setGeometry(QtCore.QRect(630, 370, 151, 20))
         self.label_5.setObjectName(_fromUtf8("label_5"))
         self.botao_comparar_ER = QtGui.QPushButton(self.centralwidget)
         self.botao_comparar_ER.setGeometry(QtCore.QRect(620, 450, 111, 27))
         self.botao_comparar_ER.setObjectName(_fromUtf8("botao_comparar_ER"))
+        self.line_edit_salvar = QtGui.QLineEdit(self.centralwidget)
+        self.line_edit_salvar.setGeometry(QtCore.QRect(520, 290, 101, 27))
+        self.line_edit_salvar.setObjectName(_fromUtf8("line_edit_salvar"))
+        self.label_6 = QtGui.QLabel(self.centralwidget)
+        self.label_6.setGeometry(QtCore.QRect(470, 300, 51, 17))
+        self.label_6.setObjectName(_fromUtf8("label_6"))
+        self.pushButton_3 = QtGui.QPushButton(self.centralwidget)
+        self.pushButton_3.setGeometry(QtCore.QRect(620, 520, 131, 27))
+        self.pushButton_3.setObjectName(_fromUtf8("pushButton_3"))
+        self.line_edit_ER_para_automato = QtGui.QLineEdit(self.centralwidget)
+        self.line_edit_ER_para_automato.setGeometry(QtCore.QRect(620, 490, 171, 27))
+        self.line_edit_ER_para_automato.setObjectName(_fromUtf8("line_edit_ER_para_automato"))
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 831, 25))
@@ -141,6 +153,7 @@ class Ui_MainWindow(object):
         QtCore.QObject.connect(self.pushButton, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.listar_sentencas)
         QtCore.QObject.connect(self.pushButton_2, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.reconhecer_sentenca)
         QtCore.QObject.connect(self.botao_comparar_ER, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.comparar_ERs)
+        QtCore.QObject.connect(self.pushButton_3, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.ER_para_automato)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -163,6 +176,8 @@ class Ui_MainWindow(object):
         self.pushButton_2.setText(QtGui.QApplication.translate("MainWindow", "Reconhecer Sentença", None, QtGui.QApplication.UnicodeUTF8))
         self.label_3.setText(QtGui.QApplication.translate("MainWindow", "Autômato ←→ Gramática", None, QtGui.QApplication.UnicodeUTF8))
         self.label_4.setText(QtGui.QApplication.translate("MainWindow", "Sentenças", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_5.setText(QtGui.QApplication.translate("MainWindow", "Comparar ERs", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_5.setText(QtGui.QApplication.translate("MainWindow", "Expressões Regulares", None, QtGui.QApplication.UnicodeUTF8))
         self.botao_comparar_ER.setText(QtGui.QApplication.translate("MainWindow", "Comparar ERs", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_6.setText(QtGui.QApplication.translate("MainWindow", "Nome:", None, QtGui.QApplication.UnicodeUTF8))
+        self.pushButton_3.setText(QtGui.QApplication.translate("MainWindow", "ER para Automato", None, QtGui.QApplication.UnicodeUTF8))
 
