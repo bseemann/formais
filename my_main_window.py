@@ -227,10 +227,11 @@ class MyMainWindow(QtGui.QMainWindow, Ui_MainWindow):
 		a2 = ER.thompson_modificado(er2)
 
 		t = Transformacoes()
-		if t.automatos_equivalentes(a1, a2, Automato()):
-			msg('Expressoes equivalentes.')
+		resposta = t.automatos_equivalentes(a1, a2, Automato())
+		if resposta:
+			self.msg('Expressoes equivalentes.')
 		else:
-			msg('Expressoes nao equivalentes.')
+			self.msg('Expressoes nao equivalentes.')
 
 
 
