@@ -239,6 +239,10 @@ class Transformacoes(object):
 	def automato_interseccao(self,automato1,automato2,uniao):
 		complementar1=self.automato_complementar(automato1)
 		complementar2=self.automato_complementar(automato2)
+		print 'complementar1'
+		complementar1.imprimir()
+		print 'complementar2'
+		complementar2.imprimir()
 		indice=0
 		uniao.inserir_estado(string.uppercase[indice])
 		uniao.inserir_estado_inicial(string.uppercase[indice])
@@ -249,20 +253,36 @@ class Transformacoes(object):
 			if i not in uniao.alfabeto:
 				uniao.inserir_terminal(i)
 		for i in complementar1.estados:
-			e=string.uppercase.find(i)+indice
-			uniao.inserir_estado(string.uppercase[e])
-			if i in complementar1.finais:
-				uniao.inserir_estado_final(string.uppercase[e])
+			if i=='Qerr':
+				uniao.inserir_estado('#')
+				if i in complementar1.finais:
+					uniao.inserir_estado_final('#')
+			else:
+				e=string.uppercase.find(i)+indice
+				uniao.inserir_estado(string.uppercase[e])
+				print i,'=>',string.uppercase[e]
+				if i in complementar1.finais:
+					uniao.inserir_estado_final(string.uppercase[e])
 		for i in complementar1.estados:
 			for j in complementar1.alfabeto:
 				for k in complementar1.transicoes[i][j]:
 					e=string.uppercase.find(i)+indice
 					l=string.uppercase.find(k)+indice
 					if i==complementar1.inicial:
-						uniao.inserir_transicao(uniao.inicial,j,string.uppercase[l])
+						if k!='Qerr':
+							uniao.inserir_transicao(uniao.inicial,j,string.uppercase[l])
+						else:
+							uniao.inserir_transicao(uniao.inicial,j,'#')
 						if i in complementar1.finais:
 							uniao.inserir_estado_final(uniao.inicial)
-					uniao.inserir_transicao(string.uppercase[e],j,string.uppercase[l])
+					if i!='Qerr':
+						if k!='Qerr':
+							uniao.inserir_transicao(string.uppercase[e],j,string.uppercase[l])
+						else:
+							uniao.inserir_transicao(string.uppercase[e],j,'#')
+
+					else:
+						uniao.inserir_transicao('#',j,'#')
 		m=indice
 		for i in uniao.estados:
 			j=string.uppercase.find(i)
@@ -270,30 +290,55 @@ class Transformacoes(object):
 				m=j
 		m=m+1
 		indice=m
-		for i in complementar2.estados:
-			n=m-string.uppercase.find(i)
-			if n<indice:
-				indice=n
+		#for i in complementar2.estados:
+		#	n=m-string.uppercase.find(i)
+		#	if n<indice:
+		#		indice=n
+		print 'indice',indice+1
 		indice=indice+1
 		for i in complementar2.estados:
-			e=string.uppercase.find(i)+indice
-			uniao.inserir_estado(string.uppercase[e])
-			if i in complementar2.finais:
-				uniao.inserir_estado_final(string.uppercase[e])
+			if i!='Qerr':
+				e=string.uppercase.find(i)+indice
+				uniao.inserir_estado(string.uppercase[e])
+				print i,'=>',string.uppercase[e]
+				if i in complementar2.finais:
+					uniao.inserir_estado_final(string.uppercase[e])
+			else:
+				if i not in uniao.estados:
+					uniao.inserir_estado('@')
+					if i in complementar2.finais:
+						uniao.inserir_estado_final('#')
 		for i in complementar2.estados:
 			for j in complementar2.alfabeto:
 				for k in complementar2.transicoes[i][j]:
 					e=string.uppercase.find(i)+indice
 					l=string.uppercase.find(k)+indice
 					if i==complementar2.inicial:
-						uniao.inserir_transicao(uniao.inicial,j,string.uppercase[l])
+						if k!='Qerr':
+							uniao.inserir_transicao(uniao.inicial,j,string.uppercase[l])
+						else:
+							uniao.inserir_transicao(uniao.inicial,j,'@')
 						if i in complementar2.finais:
 							if uniao.inicial not in uniao.finais:
 								uniao.inserir_estado_final(uniao.inicial)
-					uniao.inserir_transicao(string.uppercase[e],j,string.uppercase[l])
+					if i!='Qerr':
+						if k!='Qerr':
+							uniao.inserir_transicao(string.uppercase[e],j,string.uppercase[l])
+						else:
+							uniao.inserir_transicao(string.uppercase[e],j,'@')
+					else:
+						uniao.inserir_transicao('@',j,'@')
+		print 'uniao'
+		uniao.imprimir()
 		automato=self.determinizar(uniao)
+		print 'determinizado'
+		automato.imprimir()
 		automato=self.minimizar(automato)
+		print 'minimizado'
+		automato.imprimir()
 		automato=self.automato_complementar(automato)
+		print 'final'
+		automato.imprimir()
 		return automato
 
 	def automatos_equivalentes(self,automato1,automato2,obj):
