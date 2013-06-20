@@ -70,7 +70,7 @@ class Gramatica(object):
 					self.inserir_producao(s)
 				x=i+'->'
 				for j in automato.alfabeto:
-					if automato.transicoes[i][j]>0:
+					if len(automato.transicoes[i][j])>0:
 						if automato.transicoes[i][j][0] in automato.finais:
 							x=x+j+'|'
 						x=x+j+automato.transicoes[i][j][0]

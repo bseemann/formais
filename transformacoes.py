@@ -3,20 +3,19 @@ import string
 
 class Transformacoes(object):
 	def completar(self,obj):
-		self=obj
 		q=0
-		for i in self.transicoes:
-			for j in self.alfabeto:
-				if len(self.transicoes[i][j])==0:
-					self.transicoes[i][j].append('Qerr')
+		for i in obj.transicoes:
+			for j in obj.alfabeto:
+				if len(obj.transicoes[i][j])==0:
+					obj.transicoes[i][j].append('Qerr')
 					q=1
 		if q==1:
 			x = dict()
-			for i in self.alfabeto:
+			for i in obj.alfabeto:
 				x[i]=['Qerr']
-			self.transicoes['Qerr']=x
-			self.estados.append('Qerr')
-		return self
+			obj.transicoes['Qerr']=x
+			obj.estados.append('Qerr')
+		return obj
 
 	def determinizar(self,obj):
 		self=obj
@@ -232,7 +231,7 @@ class Transformacoes(object):
 	def automato_complementar(self,automato):
 		complementar=self.completar(copy.deepcopy(automato))
 		complementar.finais=[]
-		for i in automato.estados:
+		for i in complementar.estados:
 			if i not in automato.finais:
 				complementar.finais.append(i)
 		return complementar
@@ -292,32 +291,16 @@ class Transformacoes(object):
 							if uniao.inicial not in uniao.finais:
 								uniao.inserir_estado_final(uniao.inicial)
 					uniao.inserir_transicao(string.uppercase[e],j,string.uppercase[l])
-		print 'uniao'
-		uniao.imprimir()
 		automato=self.determinizar(uniao)
-		print 'det'
-		automato.imprimir()
 		automato=self.minimizar(automato)
-		print 'minimizado'
-		automato.imprimir()
 		automato=self.automato_complementar(automato)
 		return automato
 
 	def automatos_equivalentes(self,automato1,automato2,obj):
 		complementar1=self.automato_complementar(copy.deepcopy(automato1))
-		print 'complementar1'
-		complementar1.imprimir()
 		complementar2=self.automato_complementar(copy.deepcopy(automato2))
-		print 'complementar2'
-		complementar2.imprimir()
 		interseccao1=self.automato_interseccao(copy.deepcopy(automato1),complementar2,copy.deepcopy(obj))
-		print 'interseccao1'
-		interseccao1.imprimir()
 		interseccao2=self.automato_interseccao(copy.deepcopy(automato2),complementar1,copy.deepcopy(obj))
-		print 'interseccao2'
-		interseccao2.imprimir()
 		if len(interseccao1.finais)==0 and len(interseccao2.finais)==0:
 			return True
 		return False
-		interseccao1.imprimir()
-		interseccao2.imprimir()
