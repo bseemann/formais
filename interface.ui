@@ -142,7 +142,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Automato Resultante</string>
+     <string>Autômato Resultante</string>
     </property>
    </widget>
    <widget class="QPushButton" name="botao_swap">
@@ -175,7 +175,7 @@
     <property name="geometry">
      <rect>
       <x>70</x>
-      <y>380</y>
+      <y>390</y>
       <width>281</width>
       <height>91</height>
      </rect>
@@ -185,7 +185,7 @@
     <property name="geometry">
      <rect>
       <x>70</x>
-      <y>480</y>
+      <y>490</y>
       <width>181</width>
       <height>27</height>
      </rect>
@@ -198,13 +198,13 @@
     <property name="geometry">
      <rect>
       <x>70</x>
-      <y>510</y>
+      <y>520</y>
       <width>181</width>
       <height>27</height>
      </rect>
     </property>
     <property name="text">
-     <string>Automato para Gramática</string>
+     <string>Autômato para Gramática</string>
     </property>
    </widget>
    <widget class="QPushButton" name="botao_limpar_tela">
@@ -224,7 +224,7 @@
     <property name="geometry">
      <rect>
       <x>370</x>
-      <y>380</y>
+      <y>390</y>
       <width>231</width>
       <height>91</height>
      </rect>
@@ -260,7 +260,7 @@
     <property name="geometry">
      <rect>
       <x>480</x>
-      <y>480</y>
+      <y>490</y>
       <width>121</width>
       <height>27</height>
      </rect>
@@ -273,7 +273,7 @@
     <property name="geometry">
      <rect>
       <x>440</x>
-      <y>480</y>
+      <y>490</y>
       <width>41</width>
       <height>27</height>
      </rect>
@@ -283,7 +283,7 @@
     <property name="geometry">
      <rect>
       <x>370</x>
-      <y>490</y>
+      <y>500</y>
       <width>64</width>
       <height>17</height>
      </rect>
@@ -296,13 +296,85 @@
     <property name="geometry">
      <rect>
       <x>440</x>
-      <y>510</y>
+      <y>520</y>
       <width>161</width>
       <height>27</height>
      </rect>
     </property>
     <property name="text">
      <string>Reconhecer Sentença</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>370</y>
+      <width>181</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Autômato ←→ Gramática</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>443</x>
+      <y>370</y>
+      <width>81</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Sentenças</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="line_edit_ER1">
+    <property name="geometry">
+     <rect>
+      <x>620</x>
+      <y>390</y>
+      <width>171</width>
+      <height>27</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="line_edit_ER2">
+    <property name="geometry">
+     <rect>
+      <x>620</x>
+      <y>420</y>
+      <width>171</width>
+      <height>27</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>370</y>
+      <width>101</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Comparar ERs</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="botao_comparar_ER">
+    <property name="geometry">
+     <rect>
+      <x>620</x>
+      <y>450</y>
+      <width>111</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Comparar ERs</string>
     </property>
    </widget>
   </widget>
@@ -424,7 +496,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>154</x>
-     <y>510</y>
+     <y>541</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -544,6 +616,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>botao_comparar_ER</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>comparar_ERs()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>686</x>
+     <y>495</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>694</x>
+     <y>513</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>minimizar()</slot>
@@ -561,5 +649,6 @@
   <slot>carregar()</slot>
   <slot>listar_sentencas()</slot>
   <slot>reconhecer_sentenca()</slot>
+  <slot>comparar_ERs()</slot>
  </slots>
 </ui>

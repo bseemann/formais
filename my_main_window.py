@@ -10,6 +10,8 @@ from tabela import Tabela
 from automato import Automato
 from gramatica import Gramatica
 from pickle import dump, load
+from transformacoes import Transformacoes
+from expressao_regular import Expressao_Regular
 
 class MyMainWindow(QtGui.QMainWindow, Ui_MainWindow):
 	def __init__(self, parent=None):
@@ -216,6 +218,20 @@ class MyMainWindow(QtGui.QMainWindow, Ui_MainWindow):
 		else:
 			self.msg('Sentenca nao reconhecida.')
 		
+	def comparar_ERs(self):
+		er1 = str(self.line_edit_ER1.text().toAscii())
+		er2 = str(self.line_edit_ER2.text().toAscii())
+
+		ER = Expressao_Regular()
+		a1 = ER.thompson_modificado(er1)
+		a2 = ER.thompson_modificado(er2)
+
+		t = Transformacoes()
+		if t.automatos_equivalentes(a1, a2, Automato()):
+			msg('Expressoes equivalentes.')
+		else:
+			msg('Expressoes nao equivalentes.')
+
 
 
 if __name__ == "__main__":
