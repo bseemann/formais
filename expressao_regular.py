@@ -216,6 +216,8 @@ if __name__ == "__main__":
 	b.inserir_estado_inicial('A')
 	b.inserir_estado_final('A')
 	c=Automato()
+	a=e.thompson_modificado('aa*')
+	b=e.thompson_modificado('a*a')
 	if t.automatos_equivalentes(a,b,c):
 		print 'Equivalentes'
 	
